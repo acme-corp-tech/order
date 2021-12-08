@@ -1,4 +1,4 @@
-module github.com/acme-corp-tech/service-starter-kit
+module github.com/acme-corp-tech/order
 
 go 1.17
 

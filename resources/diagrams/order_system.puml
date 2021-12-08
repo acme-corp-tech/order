@@ -1,0 +1,7 @@
+@startuml "order_system"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!include order_components.puml
+!include order_relations.puml
+
+@enduml
