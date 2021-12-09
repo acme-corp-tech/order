@@ -1,6 +1,8 @@
 @startuml "order_relations"
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-Rel(order, order_db, "Stores something")
+Rel(order_service, cart_service, "Gets items for new order")
+Rel(order_service, shipping_team, "Sends order to the shipping team")
+Rel(order_service, order_db, "Stores order information")
 
 @enduml

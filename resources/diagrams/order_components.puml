@@ -1,9 +1,9 @@
 @startuml "order_components"
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-System_Boundary(order_system, "[[https://github.com/acme-corp-tech/architecture/wiki/order_system.svg Order]]") {
-    Container(order, "Order", "Go", "Change Me", $sprite="go")
-    ContainerDb(order_db, "Order Database", "MySQL", "", $sprite="mysql")
+System_Boundary(order_system, "[[https://github.com/acme-corp-tech/architecture/wiki/order_system.svg Shipping order]]") {
+    Container(order_service, "Order Service", "Go", "Keeps track of orders", $sprite="go")
+    ContainerDb(order_db, "Order Service Database", "MySQL", "", $sprite="mysql")
 }
 
 @enduml
