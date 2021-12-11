@@ -27,8 +27,6 @@ ifeq ($(DEVGO_PATH),)
 	endif
 endif
 
-INTEGRATION_DOCKER_COMPOSE ?= ./docker-compose.yml
-
 -include $(DEVGO_PATH)/makefiles/main.mk
 -include $(DEVGO_PATH)/makefiles/lint.mk
 -include $(DEVGO_PATH)/makefiles/test-unit.mk
