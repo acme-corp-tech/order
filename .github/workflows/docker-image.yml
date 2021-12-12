@@ -30,10 +30,12 @@ jobs:
             ~/go/bin/lichen
           key: ${{ runner.os }}-lichen
       - name: Build application
+        id: build
         run: |
           export VERSION=$([ -z "${{ github.head_ref }}" ] && echo "${GITHUB_REF##*/}" || echo "${{ github.head_ref }}")
           echo $VERSION
           time make build-linux
+          echo "::set-output name=version::$VERSION"
       - name: Scan licenses
         if: hashFiles('licenses.yml') != ''
         run: |
@@ -41,8 +43,8 @@ jobs:
           lichen -c licenses.yml ./bin/*
       - name: Build docker image
         run: |
-          docker build --progress plain -t ghcr.io/acme-corp-tech/order:$VERSION -t ghcr.io/acme-corp-tech/order:latest .
-          docker run --rm ghcr.io/acme-corp-tech/order:$VERSION -version
+          docker build --progress plain -t ghcr.io/acme-corp-tech/order:${{ steps.build.outputs.version }} -t ghcr.io/acme-corp-tech/order:latest .
+          docker run --rm ghcr.io/acme-corp-tech/order:${{ steps.build.outputs.version }} -version
       - name: Login to Github Packages
         uses: docker/login-action@v1
         with:
@@ -50,10 +52,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.ORG_GITHUB_TOKEN }}
       - name: Push image to Github Packages
-        id: image
         run: |
-          export VERSION=$([ -z "${{ github.head_ref }}" ] && echo "${GITHUB_REF##*/}" || echo "${{ github.head_ref }}")
-          echo $VERSION
-          docker push ghcr.io/acme-corp-tech/order:$VERSION
+          docker push ghcr.io/acme-corp-tech/order:${{ steps.build.outputs.version }}
           [ -z "${{ github.head_ref }}" ] && docker push ghcr.io/acme-corp-tech/order:latest || echo "Not pushing master image for PR"
-          echo "::set-output name=version::$VERSION"
