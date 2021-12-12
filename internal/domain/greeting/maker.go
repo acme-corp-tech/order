@@ -11,7 +11,7 @@ import (
 // Params describes greeting input.
 type Params struct {
 	Name   string `query:"name" default:"World"`
-	Locale string `query:"locale" required:"true" enum:"en-US,ru-RU"`
+	Locale string `query:"locale" required:"true" enum:"en-US,ru-RU,de-DE"`
 }
 
 // Maker makes a greeting.
