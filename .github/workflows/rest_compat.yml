@@ -25,15 +25,18 @@ jobs:
           repository: ${{github.repository}}.wiki
           path: wiki
       - name: Build openapi.json
+        if: hashFiles('./wiki/openapi.json') != ''
         run: |
           make build
           ./bin/* -openapi > openapi.json
           cat ./openapi.json
       - name: Check API changes
+        if: hashFiles('./wiki/openapi.json') != ''
         uses: docker://openapitools/openapi-diff
         with:
           args: ./wiki/openapi.json ./openapi.json --markdown api-changes.md
       - name: Read report
+        if: hashFiles('./wiki/openapi.json') != ''
         id: report
         run: |
           OUTPUT=$(cat api-changes.md)
@@ -43,9 +46,9 @@ jobs:
           OUTPUT="${OUTPUT//$'\r'/'%0D'}"
           echo "::set-output name=diff::$OUTPUT"
       - name: Update Comment
+        if: hashFiles('./wiki/openapi.json') != ''
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           header: rest-compat
           message: |
             ### REST API Changes
