@@ -41,9 +41,7 @@ jobs:
         run: |
           OUTPUT=$(cat api-changes.md)
           echo "${OUTPUT}"
-          OUTPUT="${OUTPUT//'%'/'%25'}"
-          OUTPUT="${OUTPUT//$'\n'/'%0A'}"
-          OUTPUT="${OUTPUT//$'\r'/'%0D'}"
+          OUTPUT="${OUTPUT//$'\n'/%0A}"
           echo "::set-output name=diff::$OUTPUT"
       - name: Update Comment
         if: hashFiles('./wiki/openapi.json') != ''
