@@ -19,7 +19,7 @@ type helloDeps interface {
 // HelloWorld creates use case interactor.
 func HelloWorld(deps helloDeps) usecase.IOInteractor {
 	type helloOutput struct {
-		Message string `json:"message"`
+		Message string `json:"msg"`
 	}
 
 	u := usecase.NewIOI(new(greeting.Params), new(helloOutput), func(ctx context.Context, input, output interface{}) error {
